@@ -1,0 +1,75 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
+generator client {
+  provider = "prisma-client"
+  output   = "../src/generated/prisma"
+}
+
+datasource db {
+  provider = "mongodb"
+  url      = env("DATABASE_URL")
+}
+
+model Admin {
+  adm_id         String   @id @default(auto()) @map("_id") @db.ObjectId
+  adm_name       String   @unique
+  adm_password   String
+  adm_is_active  Boolean  @default(true)
+  adm_created_at DateTime @default(now())
+
+  @@map("admins")
+}
+
+model Driver {
+  drv_id              String              @id @default(auto()) @map("_id") @db.ObjectId
+  drv_name            String              @unique
+  drv_nickname        String?             @unique
+  drv_created_at      DateTime            @default(now())
+  race_participations RaceParticipation[]
+
+  @@map("drivers")
+}
+
+model Championship {
+  chmp_id               String   @id @default(auto()) @map("_id") @db.ObjectId
+  chmp_name             String   @unique
+  chmp_max_participants Int
+  chmp_started          Boolean  @default(false)
+  chmp_finished         Boolean  @default(false)
+  chmp_created_at       DateTime @default(now())
+
+  races Race[]
+
+  @@map("championships")
+}
+
+model Race {
+  race_id         String   @id @default(auto()) @map("_id") @db.ObjectId
+  race_chmp_id    String   @db.ObjectId
+  race_name       String
+  race_date       DateTime
+  race_finished   Boolean  @default(false)
+  race_created_at DateTime @default(now())
+
+  championship        Championship        @relation(fields: [race_chmp_id], references: [chmp_id])
+  race_participations RaceParticipation[]
+
+  @@map("races")
+}
+
+model RaceParticipation {
+  rcpt_id       String @id @default(auto()) @map("_id") @db.ObjectId
+  rcpt_race_id  String @db.ObjectId
+  rcpt_drv_id   String @db.ObjectId
+  rcpt_position Int?
+
+  race   Race   @relation(fields: [rcpt_race_id], references: [race_id])
+  driver Driver @relation(fields: [rcpt_drv_id], references: [drv_id])
+
+  @@unique([rcpt_race_id, rcpt_drv_id])
+  @@map("race_participations")
+}
