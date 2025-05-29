@@ -1,7 +1,7 @@
-import { Drivers } from "~/generated/prisma";
+import { Driver } from "@prisma/client";
 
 type CardDriverProps = {
-  driver: Drivers;
+  driver: Driver;
 };
 
 export const CardDriver = ({ driver }: CardDriverProps) => {

@@ -1,3 +1,4 @@
+import { Admin } from "@prisma/client";
 import { QueryClient } from "@tanstack/react-query";
 import {
   HeadContent,
@@ -13,7 +14,6 @@ import * as React from "react";
 import { DefaultCatchBoundary } from "~/components/DefaultCatchBoundary";
 import { Header } from "~/components/layout/header";
 import { NotFound } from "~/components/NotFound";
-import { Admin } from "~/generated/prisma";
 import appCss from "~/styles/app.css?url";
 import { parseCookie } from "~/utils/parse-cookie";
 import { seo } from "~/utils/seo";
