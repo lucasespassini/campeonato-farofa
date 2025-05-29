@@ -5,7 +5,8 @@
   "type": "module",
   "scripts": {
     "dev": "pnpm services:up && npx prisma generate && vinxi dev --host --port 5173",
-    "build": "npx prisma generate && vinxi build",
+    "build": "vinxi build",
+    "postinstall": "npx prisma generate",
     "start": "vinxi start",
     "docker:compose": "docker compose",
     "services:up": "pnpm docker:compose up -d ",
