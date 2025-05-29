@@ -5,7 +5,7 @@
   "type": "module",
   "scripts": {
     "dev": "pnpm services:up && npx prisma generate && vinxi dev --host --port 5173",
-    "build": "npx prisma generate --binary-target=rhel-openssl-3.0.x && vinxi build",
+    "build": "npx prisma generate && vinxi build",
     "start": "vinxi start",
     "docker:compose": "docker compose",
     "services:up": "pnpm docker:compose up -d ",
