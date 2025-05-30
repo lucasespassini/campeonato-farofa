@@ -51,7 +51,7 @@ export const createChampionship = createServerFn({ method: "POST" })
           data.drivers && data.drivers.length > 0
             ? {
                 createMany: {
-                  data: data.drivers.map((driver) => ({ chpt_drv_id: driver.id })),
+                  data: data.drivers.map((driverId) => ({ chpt_drv_id: driverId })),
                 },
               }
             : undefined,

@@ -1,5 +1,6 @@
 import { Await, createFileRoute, useNavigate, useRouter } from "@tanstack/react-router";
 import { PlusIcon, Trash2Icon } from "lucide-react";
+import { use } from "react";
 import { useAppForm } from "~/components/form/form";
 import { Button } from "~/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "~/components/ui/card";
@@ -12,7 +13,7 @@ import {
   CreateChampionshipType,
 } from "~/server/championship/championship-schema";
 import { findDrivers } from "~/server/driver/driver";
-import { CardSelectDriver } from "./-components/card-select-driver";
+import { CardSelect } from "../-components/card-select";
 
 export const Route = createFileRoute("/_private/admin/championship/register")({
   loader: async ({ context }) => {
@@ -36,6 +37,8 @@ function RouteComponent() {
   const { driversDeferred, championshipModalities } = Route.useLoaderData();
   const router = useRouter();
   const navigate = useNavigate();
+
+  const drivers = use(driversDeferred);
 
   async function handleSubmit(data: CreateChampionshipType) {
     await createChampionship({ data });
@@ -147,7 +150,7 @@ function RouteComponent() {
         {(field) => {
           return (
             <div>
-              <h3 className="mb-2 text-2xl font-bold">Pilotos</h3>
+              <h3 className="mb-5 text-2xl font-bold">Pilotos</h3>
 
               <div className="grid grid-cols-2 gap-5">
                 <Card className="h-[400px]">
@@ -162,20 +165,20 @@ function RouteComponent() {
                         drivers
                           .filter(
                             (driver) =>
-                              !field.state.value?.some((d) => d.id === driver.drv_id),
+                              !field.state.value?.some(
+                                (driverId) => driverId === driver.drv_id,
+                              ),
                           )
                           .map((driver) => (
                             <div
                               key={driver.drv_id}
-                              onClick={() =>
-                                field.pushValue({
-                                  id: driver.drv_id,
-                                  name: driver.drv_name,
-                                  nickname: driver.drv_nickname!,
-                                })
-                              }
+                              onClick={() => field.pushValue(driver.drv_id)}
                             >
-                              <CardSelectDriver driver={driver} />
+                              <CardSelect>
+                                <p>
+                                  {driver.drv_name} - {driver.drv_nickname}
+                                </p>
+                              </CardSelect>
                             </div>
                           ))
                       }
@@ -189,22 +192,20 @@ function RouteComponent() {
                   </CardHeader>
 
                   <CardContent className="flex flex-col gap-2 overflow-auto">
-                    {field.state.value?.map((driver, i) => {
+                    {field.state.value?.map((driverId, i) => {
+                      const driver = drivers.find((d) => d.drv_id === driverId)!;
+
                       return (
                         <div
-                          key={driver.id}
+                          key={driverId}
                           className="flex items-end gap-3"
                           onClick={() => field.removeValue(i)}
                         >
-                          <CardSelectDriver
-                            driver={{
-                              drv_id: driver.id,
-                              drv_name: driver.name,
-                              drv_nickname: driver.nickname,
-                              drv_created_at: null!,
-                            }}
-                            isSelected
-                          />
+                          <CardSelect>
+                            <p>
+                              {driver.drv_name} - {driver.drv_nickname}
+                            </p>
+                          </CardSelect>
                         </div>
                       );
                     })}

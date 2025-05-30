@@ -18,13 +18,23 @@ export const createDriver = createServerFn({ method: "POST" })
     });
 
     if (findedDriver) {
-      throw new Error(`O nickname ${data.nickname} já está em uso`);
+      throw new Error(`O nickname ${data.nickname} já está cadastrado`);
     }
 
     await prisma.driver.create({
       data: {
         drv_name: data.name,
         drv_nickname: data.nickname,
+        championship_participations:
+          data.championships && data.championships.length > 0
+            ? {
+                createMany: {
+                  data: data.championships.map((championshipId) => ({
+                    chpt_chmp_id: championshipId,
+                  })),
+                },
+              }
+            : undefined,
       },
     });
   });
