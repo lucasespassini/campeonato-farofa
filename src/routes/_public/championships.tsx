@@ -1,9 +1,36 @@
 import { createFileRoute } from "@tanstack/react-router";
+import { findChampionships } from "~/server/championship/championship";
 
 export const Route = createFileRoute("/_public/championships")({
+  loader: async ({ context }) => {
+    const championships = await context.queryClient.ensureQueryData({
+      queryKey: ["find-championships"],
+      queryFn: () => findChampionships(),
+    });
+
+    return { championships };
+  },
   component: RouteComponent,
 });
 
 function RouteComponent() {
-  return <div>Hello "/_public/championships"!</div>;
+  const { championships } = Route.useLoaderData();
+
+  return (
+    <div className="grid grid-cols-2 gap-3">
+      {championships.map((championship) => (
+        <div
+          key={championship.chmp_id}
+          className="flex items-center justify-between rounded-md border px-3 py-2"
+        >
+          <div>
+            <p className="font-semibold">{championship.chmp_name}</p>
+            <p className="text-muted-foreground text-sm">
+              {championship.chmp_started ? "Iniciado" : "Não iniciado"}
+            </p>
+          </div>
+        </div>
+      ))}
+    </div>
+  );
 }
