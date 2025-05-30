@@ -1,5 +1,6 @@
-import { Await, createFileRoute, useNavigate, useRouter } from "@tanstack/react-router";
+import { createFileRoute, useNavigate, useRouter } from "@tanstack/react-router";
 import { PlusIcon, Trash2Icon } from "lucide-react";
+import { DateTime } from "luxon";
 import { use } from "react";
 import { useAppForm } from "~/components/form/form";
 import { Button } from "~/components/ui/button";
@@ -44,6 +45,23 @@ function RouteComponent() {
     await createChampionship({ data });
     await queryClient.invalidateQueries({ queryKey: ["find-championships"] });
     await router.invalidate();
+  }
+
+  function getCurrentValidDate() {
+    const currentDate = DateTime.now();
+    const minute = currentDate.minute;
+
+    const isMultipleOf5 = minute % 5 === 0;
+
+    if (isMultipleOf5) {
+      return currentDate.toJSDate();
+    }
+
+    const roundedMinute = Math.floor(minute / 5) * 5;
+
+    return currentDate
+      .set({ minute: roundedMinute, second: 0, millisecond: 0 })
+      .toJSDate();
   }
 
   const form = useAppForm({
@@ -107,7 +125,9 @@ function RouteComponent() {
                 <Button
                   type="button"
                   size="sm"
-                  onClick={() => field.pushValue({ name: "", date: "" })}
+                  onClick={() =>
+                    field.pushValue({ name: "", date: getCurrentValidDate() })
+                  }
                 >
                   <PlusIcon /> Adicionar corrida
                 </Button>
@@ -124,10 +144,9 @@ function RouteComponent() {
                           )}
                         </form.AppField>
 
-                        <form.AppField key={i} name={`races[${i}].date`}>
+                        <form.AppField name={`races[${i}].date`}>
                           {(subField) => (
-                            <subField.FormInput
-                              type="datetime-local"
+                            <subField.FormDateTimePicker
                               label={`Data da corrida ${i + 1}`}
                             />
                           )}
@@ -159,30 +178,25 @@ function RouteComponent() {
                   </CardHeader>
 
                   <CardContent className="flex flex-col gap-2 overflow-auto">
-                    <Await
-                      promise={driversDeferred}
-                      children={(drivers) =>
-                        drivers
-                          .filter(
-                            (driver) =>
-                              !field.state.value?.some(
-                                (driverId) => driverId === driver.drv_id,
-                              ),
-                          )
-                          .map((driver) => (
-                            <div
-                              key={driver.drv_id}
-                              onClick={() => field.pushValue(driver.drv_id)}
-                            >
-                              <CardSelect>
-                                <p>
-                                  {driver.drv_name} - {driver.drv_nickname}
-                                </p>
-                              </CardSelect>
-                            </div>
-                          ))
-                      }
-                    />
+                    {drivers
+                      .filter(
+                        (driver) =>
+                          !field.state.value?.some(
+                            (driverId) => driverId === driver.drv_id,
+                          ),
+                      )
+                      .map((driver) => (
+                        <div
+                          key={driver.drv_id}
+                          onClick={() => field.pushValue(driver.drv_id)}
+                        >
+                          <CardSelect>
+                            <p>
+                              {driver.drv_name} - {driver.drv_nickname}
+                            </p>
+                          </CardSelect>
+                        </div>
+                      ))}
                   </CardContent>
                 </Card>
 
@@ -201,7 +215,7 @@ function RouteComponent() {
                           className="flex items-end gap-3"
                           onClick={() => field.removeValue(i)}
                         >
-                          <CardSelect>
+                          <CardSelect isSelected>
                             <p>
                               {driver.drv_name} - {driver.drv_nickname}
                             </p>

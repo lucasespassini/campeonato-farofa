@@ -1,4 +1,4 @@
-import { Await, createFileRoute, useNavigate } from "@tanstack/react-router";
+import { createFileRoute, useNavigate } from "@tanstack/react-router";
 import { use } from "react";
 import { useAppForm } from "~/components/form/form";
 import { Button } from "~/components/ui/button";
@@ -81,53 +81,47 @@ function RouteComponent() {
                   </CardHeader>
 
                   <CardContent className="flex flex-col gap-2 overflow-auto">
-                    <Await
-                      promise={championshipsDeferred}
-                      children={(championship) =>
-                        championship
-                          .filter(
-                            (championship) =>
-                              !field.state.value?.some(
-                                (championshipId) =>
-                                  championshipId === championship.chmp_id,
-                              ),
-                          )
-                          .map((championship) => (
+                    {championships
+                      .filter(
+                        (championship) =>
+                          !field.state.value?.some(
+                            (championshipId) => championshipId === championship.chmp_id,
+                          ),
+                      )
+                      .map((championship) => (
+                        <div
+                          key={championship.chmp_id}
+                          onClick={() => field.pushValue(championship.chmp_id)}
+                        >
+                          <CardSelect>
                             <div
                               key={championship.chmp_id}
-                              onClick={() => field.pushValue(championship.chmp_id)}
+                              className="flex items-center justify-between rounded-md"
                             >
-                              <CardSelect>
-                                <div
-                                  key={championship.chmp_id}
-                                  className="flex items-center justify-between rounded-md"
-                                >
-                                  <div>
-                                    <p className="font-semibold">
-                                      {championship.chmp_name} -{" "}
-                                      <span className="text-muted-foreground text-sm">
-                                        {championship.chmp_started
-                                          ? "Iniciado"
-                                          : "Não iniciado"}
-                                      </span>
-                                    </p>
+                              <div>
+                                <p className="font-semibold">
+                                  {championship.chmp_name} -{" "}
+                                  <span className="text-muted-foreground text-sm">
+                                    {championship.chmp_started
+                                      ? "Iniciado"
+                                      : "Não iniciado"}
+                                  </span>
+                                </p>
 
-                                    <div className="flex items-center gap-2">
-                                      <img
-                                        src={`https://campeonato-farofa.netlify.app/${championship.championship_modality.chmd_image_url || ""}`}
-                                        className="w-10"
-                                      />
-                                      <p className="font-semibold">
-                                        {championship.championship_modality.chmd_name}
-                                      </p>
-                                    </div>
-                                  </div>
+                                <div className="flex items-center gap-2">
+                                  <img
+                                    src={`https://campeonato-farofa.netlify.app/${championship.championship_modality.chmd_image_url || ""}`}
+                                    className="w-10"
+                                  />
+                                  <p className="font-semibold">
+                                    {championship.championship_modality.chmd_name}
+                                  </p>
                                 </div>
-                              </CardSelect>
+                              </div>
                             </div>
-                          ))
-                      }
-                    />
+                          </CardSelect>
+                        </div>
+                      ))}
                   </CardContent>
                 </Card>
 

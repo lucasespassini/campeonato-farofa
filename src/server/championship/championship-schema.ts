@@ -8,7 +8,7 @@ export const createChampionshipSchema = z.object({
     .array(
       z.object({
         name: z.string().nonempty(),
-        date: z.string(),
+        date: z.date(),
       }),
     )
     .optional(),

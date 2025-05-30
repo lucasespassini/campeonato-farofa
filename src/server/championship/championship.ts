@@ -1,5 +1,4 @@
 import { createServerFn } from "@tanstack/react-start";
-import { DateTime } from "luxon";
 import { prisma } from "~/lib/database";
 import { authMiddleware } from "~/server/middlewares/auth-middleware";
 import { createChampionshipSchema } from "./championship-schema";
@@ -42,7 +41,7 @@ export const createChampionship = createServerFn({ method: "POST" })
                 createMany: {
                   data: data.races.map((race) => ({
                     race_name: race.name,
-                    race_date: DateTime.fromISO(race.date).toJSDate(),
+                    race_date: race.date,
                   })),
                 },
               }
