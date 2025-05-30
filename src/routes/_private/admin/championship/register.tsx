@@ -79,7 +79,10 @@ function RouteComponent() {
                 value: modality.chmd_id,
                 label: (
                   <div className="flex items-center gap-2">
-                    <img src={modality.chmd_image_url || ""} className="w-10" />
+                    <img
+                      src={`https://campeonato-farofa.netlify.app/${modality.chmd_image_url || ""}`}
+                      className="w-10"
+                    />
                     <p className="font-semibold">{modality.chmd_name}</p>
                   </div>
                 ),
