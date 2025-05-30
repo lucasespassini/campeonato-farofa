@@ -4,7 +4,7 @@ import { format } from "date-fns";
 import { ptBR } from "date-fns/locale";
 import { CalendarIcon } from "lucide-react";
 import { useState } from "react";
-import { date, ZodError } from "zod";
+import { ZodError } from "zod";
 import { Button } from "~/components/ui/button";
 import { Calendar } from "~/components/ui/calendar";
 import { Popover, PopoverContent, PopoverTrigger } from "~/components/ui/popover";
@@ -17,16 +17,17 @@ type DateTimePickerProps = {
 };
 
 export const FormDateTimePicker = ({ label }: DateTimePickerProps) => {
-  // const [date, setDate] = useState<Date>();
-  const [isOpen, setIsOpen] = useState(false);
   const field = useFieldContext<Date>();
   const errors: ZodError[] = useStore(field.store, (state) => state.meta.errors);
+  const [date, setDate] = useState<Date>(field.state.value);
+  const [isOpen, setIsOpen] = useState(false);
 
   const isInvalid = errors.length > 0;
   const hours = Array.from({ length: 24 }, (_, i) => i);
 
   const handleDateSelect = (selectedDate: Date | undefined) => {
     if (selectedDate) {
+      setDate(selectedDate);
       field.handleChange(selectedDate);
     }
   };
@@ -39,7 +40,7 @@ export const FormDateTimePicker = ({ label }: DateTimePickerProps) => {
       } else if (type === "minute") {
         newDate.setMinutes(parseInt(value));
       }
-      // setDate(newDate);
+      setDate(newDate);
       field.handleChange(newDate);
     }
   };
@@ -58,11 +59,7 @@ export const FormDateTimePicker = ({ label }: DateTimePickerProps) => {
             )}
           >
             <CalendarIcon className="mr-2 h-4 w-4" />
-            {field.state.value ? (
-              format(field.state.value, "dd/MM/yyyy HH:mm")
-            ) : (
-              <span>DD/MM/YYYY hh:mm</span>
-            )}
+            {date ? format(date, "dd/MM/yyyy HH:mm") : <span>DD/MM/YYYY hh:mm</span>}
           </Button>
         </PopoverTrigger>
 
@@ -71,7 +68,7 @@ export const FormDateTimePicker = ({ label }: DateTimePickerProps) => {
             <Calendar
               mode="single"
               locale={ptBR}
-              selected={field.state.value}
+              selected={date}
               onSelect={handleDateSelect}
               initialFocus
             />
@@ -82,11 +79,7 @@ export const FormDateTimePicker = ({ label }: DateTimePickerProps) => {
                     <Button
                       key={hour}
                       size="icon"
-                      variant={
-                        field.state.value && field.state.value.getHours() === hour
-                          ? "default"
-                          : "ghost"
-                      }
+                      variant={date && date.getHours() === hour ? "default" : "ghost"}
                       className="aspect-square shrink-0 sm:w-full"
                       onClick={() => handleTimeChange("hour", hour.toString())}
                     >
@@ -102,11 +95,7 @@ export const FormDateTimePicker = ({ label }: DateTimePickerProps) => {
                     <Button
                       key={minute}
                       size="icon"
-                      variant={
-                        field.state.value && field.state.value.getMinutes() === minute
-                          ? "default"
-                          : "ghost"
-                      }
+                      variant={date && date.getMinutes() === minute ? "default" : "ghost"}
                       className="aspect-square shrink-0 sm:w-full"
                       onClick={() => handleTimeChange("minute", minute.toString())}
                     >
