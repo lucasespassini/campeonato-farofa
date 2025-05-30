@@ -25,36 +25,69 @@ model Admin {
 }
 
 model Driver {
-  drv_id              String              @id @default(auto()) @map("_id") @db.ObjectId
-  drv_name            String              @unique
-  drv_nickname        String?             @unique
-  drv_created_at      DateTime            @default(now())
-  race_participations RaceParticipation[]
+  drv_id         String   @id @default(auto()) @map("_id") @db.ObjectId
+  drv_name       String   @unique
+  drv_nickname   String?  @unique
+  drv_created_at DateTime @default(now())
+
+  poles                       Race[]                      @relation("DriverPoles")
+  fastest_laps                Race[]                      @relation("DriverFastestLaps")
+  race_participations         RaceParticipation[]
+  championship_participations ChampionshipParticipation[]
 
   @@map("drivers")
 }
 
 model Championship {
-  chmp_id               String   @id @default(auto()) @map("_id") @db.ObjectId
-  chmp_name             String   @unique
-  chmp_max_participants Int
-  chmp_started          Boolean  @default(false)
-  chmp_finished         Boolean  @default(false)
-  chmp_created_at       DateTime @default(now())
+  chmp_id         String   @id @default(auto()) @map("_id") @db.ObjectId
+  chmp_chmd_id    String   @db.ObjectId
+  chmp_name       String   @unique
+  chmp_started    Boolean  @default(false)
+  chmp_finished   Boolean  @default(false)
+  chmp_created_at DateTime @default(now())
 
-  races Race[]
+  races                       Race[]
+  championship_modality       ChampionshipModality        @relation(fields: [chmp_chmd_id], references: [chmd_id])
+  championship_participations ChampionshipParticipation[]
 
   @@map("championships")
 }
 
-model Race {
-  race_id         String   @id @default(auto()) @map("_id") @db.ObjectId
-  race_chmp_id    String   @db.ObjectId
-  race_name       String
-  race_date       DateTime
-  race_finished   Boolean  @default(false)
-  race_created_at DateTime @default(now())
+model ChampionshipModality {
+  chmd_id        String  @id @default(auto()) @map("_id") @db.ObjectId
+  chmd_name      String  @unique
+  chmd_image_url String?
 
+  championships Championship[]
+
+  @@map("championship_modalities")
+}
+
+model ChampionshipParticipation {
+  chpt_id         String @id @default(auto()) @map("_id") @db.ObjectId
+  chpt_drv_id     String @db.ObjectId
+  chpt_chmp_id    String @db.ObjectId
+  chpt_car_number Int?
+
+  driver       Driver       @relation(fields: [chpt_drv_id], references: [drv_id])
+  championship Championship @relation(fields: [chpt_chmp_id], references: [chmp_id])
+
+  @@unique([chpt_drv_id, chpt_chmp_id])
+  @@map("championship_participations")
+}
+
+model Race {
+  race_id                 String   @id @default(auto()) @map("_id") @db.ObjectId
+  race_chmp_id            String   @db.ObjectId
+  rcpt_drv_pole_id        String?  @db.ObjectId
+  rcpt_drv_fastest_lap_id String?  @db.ObjectId
+  race_name               String
+  race_date               DateTime
+  race_finished           Boolean  @default(false)
+  race_created_at         DateTime @default(now())
+
+  driver_pole         Driver?             @relation("DriverPoles", fields: [rcpt_drv_pole_id], references: [drv_id])
+  driver_fastest_lap  Driver?             @relation("DriverFastestLaps", fields: [rcpt_drv_fastest_lap_id], references: [drv_id])
   championship        Championship        @relation(fields: [race_chmp_id], references: [chmp_id])
   race_participations RaceParticipation[]
 

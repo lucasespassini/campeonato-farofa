@@ -11,12 +11,15 @@ import { createServerFn } from "@tanstack/react-start";
 import { getHeaders } from "@tanstack/react-start/server";
 import { jwtDecode } from "jwt-decode";
 import * as React from "react";
+import { z } from "zod/v4";
 import { DefaultCatchBoundary } from "~/components/DefaultCatchBoundary";
 import { Header } from "~/components/layout/header";
 import { NotFound } from "~/components/NotFound";
 import appCss from "~/styles/app.css?url";
 import { parseCookie } from "~/utils/parse-cookie";
 import { seo } from "~/utils/seo";
+
+z.config(z.locales.pt());
 
 export type ContextAdmin = Omit<Admin, "adm_password">;
 

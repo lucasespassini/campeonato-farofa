@@ -21,7 +21,9 @@ import { Route as PrivateAdminIndexImport } from './routes/_private/admin/index'
 import { Route as PrivateAdminLoginImport } from './routes/_private/admin/login'
 import { Route as PrivateAdminDashboardImport } from './routes/_private/admin/dashboard'
 import { Route as PrivateAdminDriverIndexImport } from './routes/_private/admin/driver/index'
+import { Route as PrivateAdminChampionshipIndexImport } from './routes/_private/admin/championship/index'
 import { Route as PrivateAdminDriverRegisterImport } from './routes/_private/admin/driver/register'
+import { Route as PrivateAdminChampionshipRegisterImport } from './routes/_private/admin/championship/register'
 
 // Create/Update Routes
 
@@ -83,6 +85,13 @@ const PrivateAdminDriverIndexRoute = PrivateAdminDriverIndexImport.update({
   getParentRoute: () => PrivateRoute,
 } as any)
 
+const PrivateAdminChampionshipIndexRoute =
+  PrivateAdminChampionshipIndexImport.update({
+    id: '/admin/championship/',
+    path: '/admin/championship/',
+    getParentRoute: () => PrivateRoute,
+  } as any)
+
 const PrivateAdminDriverRegisterRoute = PrivateAdminDriverRegisterImport.update(
   {
     id: '/admin/driver/register',
@@ -90,6 +99,13 @@ const PrivateAdminDriverRegisterRoute = PrivateAdminDriverRegisterImport.update(
     getParentRoute: () => PrivateRoute,
   } as any,
 )
+
+const PrivateAdminChampionshipRegisterRoute =
+  PrivateAdminChampionshipRegisterImport.update({
+    id: '/admin/championship/register',
+    path: '/admin/championship/register',
+    getParentRoute: () => PrivateRoute,
+  } as any)
 
 // Populate the FileRoutesByPath interface
 
@@ -158,11 +174,25 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof PrivateAdminIndexImport
       parentRoute: typeof PrivateImport
     }
+    '/_private/admin/championship/register': {
+      id: '/_private/admin/championship/register'
+      path: '/admin/championship/register'
+      fullPath: '/admin/championship/register'
+      preLoaderRoute: typeof PrivateAdminChampionshipRegisterImport
+      parentRoute: typeof PrivateImport
+    }
     '/_private/admin/driver/register': {
       id: '/_private/admin/driver/register'
       path: '/admin/driver/register'
       fullPath: '/admin/driver/register'
       preLoaderRoute: typeof PrivateAdminDriverRegisterImport
+      parentRoute: typeof PrivateImport
+    }
+    '/_private/admin/championship/': {
+      id: '/_private/admin/championship/'
+      path: '/admin/championship'
+      fullPath: '/admin/championship'
+      preLoaderRoute: typeof PrivateAdminChampionshipIndexImport
       parentRoute: typeof PrivateImport
     }
     '/_private/admin/driver/': {
@@ -181,7 +211,9 @@ interface PrivateRouteChildren {
   PrivateAdminDashboardRoute: typeof PrivateAdminDashboardRoute
   PrivateAdminLoginRoute: typeof PrivateAdminLoginRoute
   PrivateAdminIndexRoute: typeof PrivateAdminIndexRoute
+  PrivateAdminChampionshipRegisterRoute: typeof PrivateAdminChampionshipRegisterRoute
   PrivateAdminDriverRegisterRoute: typeof PrivateAdminDriverRegisterRoute
+  PrivateAdminChampionshipIndexRoute: typeof PrivateAdminChampionshipIndexRoute
   PrivateAdminDriverIndexRoute: typeof PrivateAdminDriverIndexRoute
 }
 
@@ -189,7 +221,9 @@ const PrivateRouteChildren: PrivateRouteChildren = {
   PrivateAdminDashboardRoute: PrivateAdminDashboardRoute,
   PrivateAdminLoginRoute: PrivateAdminLoginRoute,
   PrivateAdminIndexRoute: PrivateAdminIndexRoute,
+  PrivateAdminChampionshipRegisterRoute: PrivateAdminChampionshipRegisterRoute,
   PrivateAdminDriverRegisterRoute: PrivateAdminDriverRegisterRoute,
+  PrivateAdminChampionshipIndexRoute: PrivateAdminChampionshipIndexRoute,
   PrivateAdminDriverIndexRoute: PrivateAdminDriverIndexRoute,
 }
 
@@ -222,7 +256,9 @@ export interface FileRoutesByFullPath {
   '/admin/dashboard': typeof PrivateAdminDashboardRoute
   '/admin/login': typeof PrivateAdminLoginRoute
   '/admin': typeof PrivateAdminIndexRoute
+  '/admin/championship/register': typeof PrivateAdminChampionshipRegisterRoute
   '/admin/driver/register': typeof PrivateAdminDriverRegisterRoute
+  '/admin/championship': typeof PrivateAdminChampionshipIndexRoute
   '/admin/driver': typeof PrivateAdminDriverIndexRoute
 }
 
@@ -235,7 +271,9 @@ export interface FileRoutesByTo {
   '/admin/dashboard': typeof PrivateAdminDashboardRoute
   '/admin/login': typeof PrivateAdminLoginRoute
   '/admin': typeof PrivateAdminIndexRoute
+  '/admin/championship/register': typeof PrivateAdminChampionshipRegisterRoute
   '/admin/driver/register': typeof PrivateAdminDriverRegisterRoute
+  '/admin/championship': typeof PrivateAdminChampionshipIndexRoute
   '/admin/driver': typeof PrivateAdminDriverIndexRoute
 }
 
@@ -250,7 +288,9 @@ export interface FileRoutesById {
   '/_private/admin/dashboard': typeof PrivateAdminDashboardRoute
   '/_private/admin/login': typeof PrivateAdminLoginRoute
   '/_private/admin/': typeof PrivateAdminIndexRoute
+  '/_private/admin/championship/register': typeof PrivateAdminChampionshipRegisterRoute
   '/_private/admin/driver/register': typeof PrivateAdminDriverRegisterRoute
+  '/_private/admin/championship/': typeof PrivateAdminChampionshipIndexRoute
   '/_private/admin/driver/': typeof PrivateAdminDriverIndexRoute
 }
 
@@ -265,7 +305,9 @@ export interface FileRouteTypes {
     | '/admin/dashboard'
     | '/admin/login'
     | '/admin'
+    | '/admin/championship/register'
     | '/admin/driver/register'
+    | '/admin/championship'
     | '/admin/driver'
   fileRoutesByTo: FileRoutesByTo
   to:
@@ -277,7 +319,9 @@ export interface FileRouteTypes {
     | '/admin/dashboard'
     | '/admin/login'
     | '/admin'
+    | '/admin/championship/register'
     | '/admin/driver/register'
+    | '/admin/championship'
     | '/admin/driver'
   id:
     | '__root__'
@@ -290,7 +334,9 @@ export interface FileRouteTypes {
     | '/_private/admin/dashboard'
     | '/_private/admin/login'
     | '/_private/admin/'
+    | '/_private/admin/championship/register'
     | '/_private/admin/driver/register'
+    | '/_private/admin/championship/'
     | '/_private/admin/driver/'
   fileRoutesById: FileRoutesById
 }
@@ -325,7 +371,9 @@ export const routeTree = rootRoute
         "/_private/admin/dashboard",
         "/_private/admin/login",
         "/_private/admin/",
+        "/_private/admin/championship/register",
         "/_private/admin/driver/register",
+        "/_private/admin/championship/",
         "/_private/admin/driver/"
       ]
     },
@@ -366,8 +414,16 @@ export const routeTree = rootRoute
       "filePath": "_private/admin/index.tsx",
       "parent": "/_private"
     },
+    "/_private/admin/championship/register": {
+      "filePath": "_private/admin/championship/register.tsx",
+      "parent": "/_private"
+    },
     "/_private/admin/driver/register": {
       "filePath": "_private/admin/driver/register.tsx",
+      "parent": "/_private"
+    },
+    "/_private/admin/championship/": {
+      "filePath": "_private/admin/championship/index.tsx",
       "parent": "/_private"
     },
     "/_private/admin/driver/": {

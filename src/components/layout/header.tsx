@@ -1,4 +1,5 @@
 import { Link } from "@tanstack/react-router";
+import { LogOutIcon, ShieldUserIcon } from "lucide-react";
 import { ContextAdmin } from "~/routes/__root";
 import { ContentLayout } from "./content-layout";
 
@@ -28,7 +29,17 @@ export const Header = ({ admin }: HeaderProps) => {
           </div>
         </div>
 
-        {admin && <Link to="/admin/dashboard">Admin</Link>}
+        {admin && (
+          <div className="flex gap-5">
+            <Link to="/admin/dashboard">
+              <ShieldUserIcon size={20} />
+            </Link>
+
+            <Link to="/admin/dashboard">
+              <LogOutIcon size={20} />
+            </Link>
+          </div>
+        )}
       </ContentLayout>
     </div>
   );

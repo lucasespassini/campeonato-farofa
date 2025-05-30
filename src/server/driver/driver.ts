@@ -13,6 +13,14 @@ export const createDriver = createServerFn({ method: "POST" })
   .middleware([authMiddleware])
   .validator(createDriverSchema)
   .handler(async ({ data }) => {
+    const findedDriver = await prisma.driver.findFirst({
+      where: { drv_nickname: data.nickname },
+    });
+
+    if (findedDriver) {
+      throw new Error(`O nickname ${data.nickname} já está em uso`);
+    }
+
     await prisma.driver.create({
       data: {
         drv_name: data.name,
