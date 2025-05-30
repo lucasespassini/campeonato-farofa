@@ -1,4 +1,4 @@
-import { Await, createFileRoute, useNavigate } from "@tanstack/react-router";
+import { Await, createFileRoute, useNavigate, useRouter } from "@tanstack/react-router";
 import { PlusIcon, Trash2Icon } from "lucide-react";
 import { useAppForm } from "~/components/form/form";
 import { Button } from "~/components/ui/button";
@@ -34,11 +34,13 @@ export const Route = createFileRoute("/_private/admin/championship/register")({
 function RouteComponent() {
   const { queryClient } = Route.useRouteContext();
   const { driversDeferred, championshipModalities } = Route.useLoaderData();
+  const router = useRouter();
   const navigate = useNavigate();
 
   async function handleSubmit(data: CreateChampionshipType) {
     await createChampionship({ data });
     await queryClient.invalidateQueries({ queryKey: ["find-championships"] });
+    await router.invalidate();
   }
 
   const form = useAppForm({
@@ -50,7 +52,7 @@ function RouteComponent() {
     validators: { onSubmit: createChampionshipSchema },
     async onSubmit({ formApi, value }) {
       await handleSubmit(value);
-      navigate({ to: "/admin/championship" });
+      navigate({ to: "/admin/championship", replace: true });
       formApi.reset();
     },
   });
@@ -147,13 +149,13 @@ function RouteComponent() {
             <div>
               <h3 className="mb-2 text-2xl font-bold">Pilotos</h3>
 
-              <div className="grid h-[400px] grid-cols-2 gap-5">
-                <Card>
+              <div className="grid grid-cols-2 gap-5">
+                <Card className="h-[400px]">
                   <CardHeader>
                     <CardTitle>Todos os Pilotos</CardTitle>
                   </CardHeader>
 
-                  <CardContent className="flex flex-col gap-2">
+                  <CardContent className="flex flex-col gap-2 overflow-auto">
                     <Await
                       promise={driversDeferred}
                       children={(drivers) =>
@@ -181,12 +183,12 @@ function RouteComponent() {
                   </CardContent>
                 </Card>
 
-                <Card>
+                <Card className="h-[400px]">
                   <CardHeader>
                     <CardTitle>Pilotos Selecionados</CardTitle>
                   </CardHeader>
 
-                  <CardContent className="flex flex-col gap-2">
+                  <CardContent className="flex flex-col gap-2 overflow-auto">
                     {field.state.value?.map((driver, i) => {
                       return (
                         <div

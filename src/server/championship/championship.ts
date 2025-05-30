@@ -1,7 +1,7 @@
 import { createServerFn } from "@tanstack/react-start";
 import { DateTime } from "luxon";
 import { prisma } from "~/lib/database";
-import { authMiddleware } from "~/middlewares/auth-middleware";
+import { authMiddleware } from "~/server/middlewares/auth-middleware";
 import { createChampionshipSchema } from "./championship-schema";
 
 export const findChampionships = createServerFn({ method: "GET" }).handler(async () => {

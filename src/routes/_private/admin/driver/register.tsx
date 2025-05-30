@@ -16,6 +16,7 @@ function RouteComponent() {
   async function handleSubmit(data: CreateDriverType) {
     await createDriver({ data });
     await queryClient.invalidateQueries({ queryKey: ["find-drivers"] });
+    await queryClient.refetchQueries({ queryKey: ["find-drivers"] });
   }
 
   const form = useAppForm({
@@ -26,7 +27,7 @@ function RouteComponent() {
     validators: { onBlur: createDriverSchema },
     async onSubmit({ formApi, value }) {
       await handleSubmit(value);
-      navigate({ to: "/admin/driver" });
+      navigate({ to: "/admin/driver", replace: true });
       formApi.reset();
     },
   });

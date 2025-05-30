@@ -4,7 +4,7 @@ import { compareSync } from "bcrypt";
 import jwt from "jsonwebtoken";
 import { prisma } from "~/lib/database";
 import { clientEnv } from "~/lib/env";
-import { authMiddleware } from "~/middlewares/auth-middleware";
+import { authMiddleware } from "~/server/middlewares/auth-middleware";
 import { signInSchema } from "./admin-schema";
 
 export const signIn = createServerFn({ method: "POST" })

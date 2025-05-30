@@ -1,6 +1,6 @@
 import { createServerFn } from "@tanstack/react-start";
 import { prisma } from "~/lib/database";
-import { authMiddleware } from "~/middlewares/auth-middleware";
+import { authMiddleware } from "~/server/middlewares/auth-middleware";
 import { createDriverSchema } from "./driver-schema";
 
 export const findDrivers = createServerFn({ method: "GET" }).handler(async () => {
