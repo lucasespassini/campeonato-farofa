@@ -102,9 +102,7 @@ function RouteComponent() {
                 <Button
                   type="button"
                   size="sm"
-                  onClick={() =>
-                    field.pushValue({ name: "", date: "" as unknown as Date })
-                  }
+                  onClick={() => field.pushValue({ name: "", date: "" })}
                 >
                   <PlusIcon /> Adicionar corrida
                 </Button>
@@ -123,7 +121,10 @@ function RouteComponent() {
 
                         <form.AppField key={i} name={`races[${i}].date`}>
                           {(subField) => (
-                            <subField.FormInput label={`Data da corrida ${i + 1}`} />
+                            <subField.FormInput
+                              type="datetime-local"
+                              label={`Data da corrida ${i + 1}`}
+                            />
                           )}
                         </form.AppField>
                       </div>

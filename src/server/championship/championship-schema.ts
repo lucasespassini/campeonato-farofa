@@ -15,8 +15,8 @@ export const createChampionshipSchema = z.object({
   races: z
     .array(
       z.object({
-        name: z.string(),
-        date: z.date(),
+        name: z.string().nonempty(),
+        date: z.string(),
       }),
     )
     .optional(),

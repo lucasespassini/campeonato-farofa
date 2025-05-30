@@ -1,10 +1,13 @@
 import { createServerFn } from "@tanstack/react-start";
+import { DateTime } from "luxon";
 import { prisma } from "~/lib/database";
 import { authMiddleware } from "~/middlewares/auth-middleware";
 import { createChampionshipSchema } from "./championship-schema";
 
 export const findChampionships = createServerFn({ method: "GET" }).handler(async () => {
-  const championships = await prisma.championship.findMany();
+  const championships = await prisma.championship.findMany({
+    include: { championship_modality: true },
+  });
 
   return championships;
 });
@@ -39,7 +42,7 @@ export const createChampionship = createServerFn({ method: "POST" })
                 createMany: {
                   data: data.races.map((race) => ({
                     race_name: race.name,
-                    race_date: race.date,
+                    race_date: DateTime.fromISO(race.date).toJSDate(),
                   })),
                 },
               }

@@ -40,10 +40,22 @@ function RouteComponent() {
             className="flex items-center justify-between rounded-md border px-3 py-2"
           >
             <div>
-              <p className="font-semibold">{championship.chmp_name}</p>
-              <p className="text-muted-foreground text-sm">
-                {championship.chmp_started ? "Iniciado" : "Não iniciado"}
+              <p className="font-semibold">
+                {championship.chmp_name} -{" "}
+                <span className="text-muted-foreground text-sm">
+                  {championship.chmp_started ? "Iniciado" : "Não iniciado"}
+                </span>
               </p>
+
+              <div className="flex items-center gap-2">
+                <img
+                  src={`https://campeonato-farofa.netlify.app/${championship.championship_modality.chmd_image_url || ""}`}
+                  className="w-10"
+                />
+                <p className="font-semibold">
+                  {championship.championship_modality.chmd_name}
+                </p>
+              </div>
             </div>
 
             <Button variant="outline" className="h-9 w-9 rounded-full p-0">
