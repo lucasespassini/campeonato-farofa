@@ -22,7 +22,7 @@ function RouteComponent() {
     try {
       await signIn({ data });
     } catch (error) {
-      console.log(error);
+      alert((error as Error).message);
     }
   }
 

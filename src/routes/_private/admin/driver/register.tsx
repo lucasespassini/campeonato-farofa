@@ -28,9 +28,13 @@ function RouteComponent() {
   const championships = use(championshipsDeferred);
 
   async function handleSubmit(data: CreateDriverType) {
-    await createDriver({ data });
-    await queryClient.invalidateQueries({ queryKey: ["find-drivers"] });
-    await queryClient.refetchQueries({ queryKey: ["find-drivers"] });
+    try {
+      await createDriver({ data });
+      await queryClient.invalidateQueries({ queryKey: ["find-drivers"] });
+      await queryClient.refetchQueries({ queryKey: ["find-drivers"] });
+    } catch (error) {
+      alert((error as Error).message);
+    }
   }
 
   const form = useAppForm({

@@ -15,11 +15,11 @@ export const signIn = createServerFn({ method: "POST" })
     });
 
     if (!findedAdmin) {
-      throw new Error("Admin not found");
+      throw new Error("Login inválido");
     }
 
     if (!compareSync(data.password, findedAdmin.adm_password)) {
-      throw new Error("Invalid password");
+      throw new Error("Login inválido");
     }
 
     const payload = {

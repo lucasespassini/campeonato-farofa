@@ -1,4 +1,4 @@
-import { createFileRoute, useNavigate, useRouter } from "@tanstack/react-router";
+import { createFileRoute, useNavigate } from "@tanstack/react-router";
 import { PlusIcon, Trash2Icon } from "lucide-react";
 import { DateTime } from "luxon";
 import { use } from "react";
@@ -41,9 +41,13 @@ function RouteComponent() {
   const drivers = use(driversDeferred);
 
   async function handleSubmit(data: CreateChampionshipType) {
-    await createChampionship({ data });
-    await queryClient.invalidateQueries({ queryKey: ["find-championships"] });
-    await queryClient.refetchQueries({ queryKey: ["find-championships"] });
+    try {
+      await createChampionship({ data });
+      await queryClient.invalidateQueries({ queryKey: ["find-championships"] });
+      await queryClient.refetchQueries({ queryKey: ["find-championships"] });
+    } catch (error) {
+      alert((error as Error).message);
+    }
   }
 
   function getCurrentValidDate() {
