@@ -1,5 +1,5 @@
 import { createServerFn } from "@tanstack/react-start";
-import { setCookie } from "@tanstack/react-start/server";
+import { deleteCookie, setCookie } from "@tanstack/react-start/server";
 import { compareSync } from "bcrypt";
 import jwt from "jsonwebtoken";
 import { prisma } from "~/lib/database";
@@ -37,6 +37,10 @@ export const signIn = createServerFn({ method: "POST" })
       maxAge: 60 * 60 * 24,
     });
   });
+
+export const signOut = createServerFn({ method: "POST" }).handler(() => {
+  deleteCookie("admin_token");
+});
 
 export const findAdmins = createServerFn({ method: "GET" })
   .middleware([authMiddleware])

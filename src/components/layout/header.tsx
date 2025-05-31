@@ -1,6 +1,7 @@
-import { Link } from "@tanstack/react-router";
+import { Link, useNavigate, useRouter } from "@tanstack/react-router";
 import { LogOutIcon, ShieldUserIcon } from "lucide-react";
 import { ContextAdmin } from "~/routes/__root";
+import { signOut } from "~/server/admin/admin";
 import { ContentLayout } from "./content-layout";
 
 type HeaderProps = {
@@ -8,6 +9,9 @@ type HeaderProps = {
 };
 
 export const Header = ({ admin }: HeaderProps) => {
+  const navigate = useNavigate();
+  const router = useRouter();
+
   return (
     <div className="border-b">
       <ContentLayout className="flex items-center justify-between py-0 font-semibold">
@@ -35,9 +39,15 @@ export const Header = ({ admin }: HeaderProps) => {
               <ShieldUserIcon size={20} />
             </Link>
 
-            <Link to="/admin/dashboard">
-              <LogOutIcon size={20} />
-            </Link>
+            <LogOutIcon
+              size={20}
+              className="cursor-pointer"
+              onClick={async () => {
+                await signOut();
+                navigate({ to: "/admin/login", replace: true });
+                await router.invalidate();
+              }}
+            />
           </div>
         )}
       </ContentLayout>

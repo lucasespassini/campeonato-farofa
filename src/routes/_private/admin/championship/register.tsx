@@ -36,7 +36,6 @@ export const Route = createFileRoute("/_private/admin/championship/register")({
 function RouteComponent() {
   const { queryClient } = Route.useRouteContext();
   const { driversDeferred, championshipModalities } = Route.useLoaderData();
-  const router = useRouter();
   const navigate = useNavigate();
 
   const drivers = use(driversDeferred);
@@ -44,7 +43,7 @@ function RouteComponent() {
   async function handleSubmit(data: CreateChampionshipType) {
     await createChampionship({ data });
     await queryClient.invalidateQueries({ queryKey: ["find-championships"] });
-    await router.invalidate();
+    await queryClient.refetchQueries({ queryKey: ["find-championships"] });
   }
 
   function getCurrentValidDate() {

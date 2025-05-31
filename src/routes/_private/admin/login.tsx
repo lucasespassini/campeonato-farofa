@@ -1,5 +1,5 @@
 import { createFileRoute, useNavigate } from "@tanstack/react-router";
-import { useState, useTransition } from "react";
+import { useAppForm } from "~/components/form/form";
 import { Button } from "~/components/ui/button";
 import {
   Card,
@@ -8,8 +8,8 @@ import {
   CardHeader,
   CardTitle,
 } from "~/components/ui/card";
-import { Input } from "~/components/ui/input";
 import { signIn } from "~/server/admin/admin";
+import { SignInType } from "~/server/admin/admin-schema";
 
 export const Route = createFileRoute("/_private/admin/login")({
   component: RouteComponent,
@@ -17,50 +17,59 @@ export const Route = createFileRoute("/_private/admin/login")({
 
 function RouteComponent() {
   const navigate = useNavigate();
-  const [name, setName] = useState("");
-  const [password, setPassword] = useState("");
-  const [isSubmitting, startSubmitTransition] = useTransition();
 
-  async function handleSubmit() {
-    startSubmitTransition(async () => {
-      try {
-        await signIn({ data: { name, password } });
-        navigate({ to: "/admin/dashboard" });
-      } catch (error) {
-        console.log(error);
-      }
-    });
+  async function handleSubmit(data: SignInType) {
+    try {
+      await signIn({ data });
+    } catch (error) {
+      console.log(error);
+    }
   }
 
+  const form = useAppForm({
+    defaultValues: { name: "", password: "" } as SignInType,
+    async onSubmit({ value }) {
+      await handleSubmit(value);
+      navigate({ to: "/admin/dashboard", replace: true });
+    },
+  });
+
   return (
-    <Card className="w-[350px]">
-      <form
-        className="flex flex-col gap-5"
-        onSubmit={async (e) => {
-          e.preventDefault();
-          await handleSubmit();
-        }}
-      >
-        <CardHeader>
-          <CardTitle>Realizar Login</CardTitle>
-        </CardHeader>
+    <div className="flex min-h-[50vh] items-center justify-center">
+      <Card className="w-[350px]">
+        <form
+          className="flex flex-col gap-5"
+          onSubmit={async (e) => {
+            e.preventDefault();
+            await form.handleSubmit();
+          }}
+        >
+          <CardHeader>
+            <CardTitle>Realizar Login</CardTitle>
+          </CardHeader>
 
-        <CardContent className="flex flex-col gap-3">
-          <Input id="name" value={name} onChange={(e) => setName(e.target.value)} />
-          <Input
-            id="password"
-            type="password"
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-          />
-        </CardContent>
+          <CardContent className="flex flex-col gap-3">
+            <form.AppField
+              name="name"
+              children={(field) => <field.FormInput label="Login" />}
+            />
 
-        <CardFooter className="flex justify-end">
-          <Button type="submit" disabled={isSubmitting}>
-            Login
-          </Button>
-        </CardFooter>
-      </form>
-    </Card>
+            <form.AppField
+              name="password"
+              children={(field) => <field.FormInput type="password" label="Senha" />}
+            />
+          </CardContent>
+
+          <CardFooter className="flex justify-end">
+            <form.Subscribe
+              selector={(state) => [state.canSubmit, state.isSubmitting]}
+              children={([canSubmit, isSubmitting]) => (
+                <Button disabled={!canSubmit || isSubmitting}>Login</Button>
+              )}
+            />
+          </CardFooter>
+        </form>
+      </Card>
+    </div>
   );
 }
