@@ -24,6 +24,7 @@ import { Route as PrivateAdminDriverIndexImport } from './routes/_private/admin/
 import { Route as PrivateAdminChampionshipIndexImport } from './routes/_private/admin/championship/index'
 import { Route as PrivateAdminDriverRegisterImport } from './routes/_private/admin/driver/register'
 import { Route as PrivateAdminChampionshipRegisterImport } from './routes/_private/admin/championship/register'
+import { Route as PrivateAdminChampionshipIdImport } from './routes/_private/admin/championship/$id'
 
 // Create/Update Routes
 
@@ -107,6 +108,14 @@ const PrivateAdminChampionshipRegisterRoute =
     getParentRoute: () => PrivateRoute,
   } as any)
 
+const PrivateAdminChampionshipIdRoute = PrivateAdminChampionshipIdImport.update(
+  {
+    id: '/admin/championship/$id',
+    path: '/admin/championship/$id',
+    getParentRoute: () => PrivateRoute,
+  } as any,
+)
+
 // Populate the FileRoutesByPath interface
 
 declare module '@tanstack/react-router' {
@@ -174,6 +183,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof PrivateAdminIndexImport
       parentRoute: typeof PrivateImport
     }
+    '/_private/admin/championship/$id': {
+      id: '/_private/admin/championship/$id'
+      path: '/admin/championship/$id'
+      fullPath: '/admin/championship/$id'
+      preLoaderRoute: typeof PrivateAdminChampionshipIdImport
+      parentRoute: typeof PrivateImport
+    }
     '/_private/admin/championship/register': {
       id: '/_private/admin/championship/register'
       path: '/admin/championship/register'
@@ -211,6 +227,7 @@ interface PrivateRouteChildren {
   PrivateAdminDashboardRoute: typeof PrivateAdminDashboardRoute
   PrivateAdminLoginRoute: typeof PrivateAdminLoginRoute
   PrivateAdminIndexRoute: typeof PrivateAdminIndexRoute
+  PrivateAdminChampionshipIdRoute: typeof PrivateAdminChampionshipIdRoute
   PrivateAdminChampionshipRegisterRoute: typeof PrivateAdminChampionshipRegisterRoute
   PrivateAdminDriverRegisterRoute: typeof PrivateAdminDriverRegisterRoute
   PrivateAdminChampionshipIndexRoute: typeof PrivateAdminChampionshipIndexRoute
@@ -221,6 +238,7 @@ const PrivateRouteChildren: PrivateRouteChildren = {
   PrivateAdminDashboardRoute: PrivateAdminDashboardRoute,
   PrivateAdminLoginRoute: PrivateAdminLoginRoute,
   PrivateAdminIndexRoute: PrivateAdminIndexRoute,
+  PrivateAdminChampionshipIdRoute: PrivateAdminChampionshipIdRoute,
   PrivateAdminChampionshipRegisterRoute: PrivateAdminChampionshipRegisterRoute,
   PrivateAdminDriverRegisterRoute: PrivateAdminDriverRegisterRoute,
   PrivateAdminChampionshipIndexRoute: PrivateAdminChampionshipIndexRoute,
@@ -256,6 +274,7 @@ export interface FileRoutesByFullPath {
   '/admin/dashboard': typeof PrivateAdminDashboardRoute
   '/admin/login': typeof PrivateAdminLoginRoute
   '/admin': typeof PrivateAdminIndexRoute
+  '/admin/championship/$id': typeof PrivateAdminChampionshipIdRoute
   '/admin/championship/register': typeof PrivateAdminChampionshipRegisterRoute
   '/admin/driver/register': typeof PrivateAdminDriverRegisterRoute
   '/admin/championship': typeof PrivateAdminChampionshipIndexRoute
@@ -271,6 +290,7 @@ export interface FileRoutesByTo {
   '/admin/dashboard': typeof PrivateAdminDashboardRoute
   '/admin/login': typeof PrivateAdminLoginRoute
   '/admin': typeof PrivateAdminIndexRoute
+  '/admin/championship/$id': typeof PrivateAdminChampionshipIdRoute
   '/admin/championship/register': typeof PrivateAdminChampionshipRegisterRoute
   '/admin/driver/register': typeof PrivateAdminDriverRegisterRoute
   '/admin/championship': typeof PrivateAdminChampionshipIndexRoute
@@ -288,6 +308,7 @@ export interface FileRoutesById {
   '/_private/admin/dashboard': typeof PrivateAdminDashboardRoute
   '/_private/admin/login': typeof PrivateAdminLoginRoute
   '/_private/admin/': typeof PrivateAdminIndexRoute
+  '/_private/admin/championship/$id': typeof PrivateAdminChampionshipIdRoute
   '/_private/admin/championship/register': typeof PrivateAdminChampionshipRegisterRoute
   '/_private/admin/driver/register': typeof PrivateAdminDriverRegisterRoute
   '/_private/admin/championship/': typeof PrivateAdminChampionshipIndexRoute
@@ -305,6 +326,7 @@ export interface FileRouteTypes {
     | '/admin/dashboard'
     | '/admin/login'
     | '/admin'
+    | '/admin/championship/$id'
     | '/admin/championship/register'
     | '/admin/driver/register'
     | '/admin/championship'
@@ -319,6 +341,7 @@ export interface FileRouteTypes {
     | '/admin/dashboard'
     | '/admin/login'
     | '/admin'
+    | '/admin/championship/$id'
     | '/admin/championship/register'
     | '/admin/driver/register'
     | '/admin/championship'
@@ -334,6 +357,7 @@ export interface FileRouteTypes {
     | '/_private/admin/dashboard'
     | '/_private/admin/login'
     | '/_private/admin/'
+    | '/_private/admin/championship/$id'
     | '/_private/admin/championship/register'
     | '/_private/admin/driver/register'
     | '/_private/admin/championship/'
@@ -371,6 +395,7 @@ export const routeTree = rootRoute
         "/_private/admin/dashboard",
         "/_private/admin/login",
         "/_private/admin/",
+        "/_private/admin/championship/$id",
         "/_private/admin/championship/register",
         "/_private/admin/driver/register",
         "/_private/admin/championship/",
@@ -412,6 +437,10 @@ export const routeTree = rootRoute
     },
     "/_private/admin/": {
       "filePath": "_private/admin/index.tsx",
+      "parent": "/_private"
+    },
+    "/_private/admin/championship/$id": {
+      "filePath": "_private/admin/championship/$id.tsx",
       "parent": "/_private"
     },
     "/_private/admin/championship/register": {

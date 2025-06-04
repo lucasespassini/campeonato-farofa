@@ -1,23 +1,34 @@
-import { createFileRoute, useNavigate } from "@tanstack/react-router";
+import {
+  createFileRoute,
+  redirect,
+  useNavigate,
+  useRouter,
+} from "@tanstack/react-router";
 import { PlusIcon, Trash2Icon } from "lucide-react";
 import { useAppForm } from "~/components/form/form";
 import { Button } from "~/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "~/components/ui/card";
+import { queryClient } from "~/router";
 import {
-  createChampionship,
+  editChampionship,
+  findChampionshipById,
   findChampionshipModalities,
 } from "~/server/championship/championship";
 import {
-  createChampionshipSchema,
-  CreateChampionshipType,
+  editChampionshipSchema,
+  EditChampionshipType,
 } from "~/server/championship/championship-schema";
 import { findDrivers } from "~/server/driver/driver";
 import { getCurrentValidDate } from "~/utils/get-date";
 import { CardSelect } from "../-components/card-select";
 
-export const Route = createFileRoute("/_private/admin/championship/register")({
-  loader: async ({ context }) => {
-    const [championshipModalities, drivers] = await Promise.all([
+export const Route = createFileRoute("/_private/admin/championship/$id")({
+  loader: async ({ params, context }) => {
+    const [championship, championshipModalities, drivers] = await Promise.all([
+      context.queryClient.ensureQueryData({
+        queryKey: ["find-championship-by-id", params],
+        queryFn: () => findChampionshipById({ data: params }),
+      }),
       context.queryClient.ensureQueryData({
         queryKey: ["find-championship-modalities"],
         queryFn: () => findChampionshipModalities(),
@@ -28,21 +39,34 @@ export const Route = createFileRoute("/_private/admin/championship/register")({
       }),
     ]);
 
-    return { drivers, championshipModalities };
+    if (!championship) throw redirect({ to: "/admin/championship" });
+
+    return { championship, championshipModalities, drivers };
   },
   component: RouteComponent,
 });
 
 function RouteComponent() {
-  const { queryClient } = Route.useRouteContext();
-  const { drivers, championshipModalities } = Route.useLoaderData();
+  const { championship, championshipModalities, drivers } = Route.useLoaderData();
   const navigate = useNavigate();
+  const router = useRouter();
 
-  async function handleSubmit(data: CreateChampionshipType) {
+  console.log(championship);
+
+  async function handleSubmit(data: EditChampionshipType) {
     try {
-      await createChampionship({ data });
+      await editChampionship({ data });
       await queryClient.invalidateQueries({ queryKey: ["find-championships"] });
       await queryClient.refetchQueries({ queryKey: ["find-championships"] });
+      await queryClient.invalidateQueries({
+        queryKey: ["find-championship-by-id"],
+        exact: false,
+      });
+      await queryClient.refetchQueries({
+        queryKey: ["find-championship-by-id"],
+        exact: false,
+      });
+      await router.invalidate();
     } catch (error) {
       alert((error as Error).message);
     }
@@ -50,15 +74,23 @@ function RouteComponent() {
 
   const form = useAppForm({
     defaultValues: {
-      name: "",
-      modality: "",
-      races: [],
-    } as CreateChampionshipType,
-    validators: { onSubmit: createChampionshipSchema },
-    async onSubmit({ formApi, value }) {
+      id: championship.chmp_id,
+      name: championship.chmp_name,
+      modality: championship.chmp_chmd_id,
+      races: championship.races.map((race) => ({
+        id: race.race_id,
+        name: race.race_name,
+        date: race.race_date,
+        sprint: false,
+      })),
+      drivers: championship.championship_participations.map(
+        (participations) => participations.driver.drv_id,
+      ),
+    } as EditChampionshipType,
+    validators: { onSubmit: editChampionshipSchema },
+    async onSubmit({ value }) {
       await handleSubmit(value);
       navigate({ to: "/admin/championship", replace: true });
-      formApi.reset();
     },
   });
 
@@ -82,6 +114,7 @@ function RouteComponent() {
           children={(field) => (
             <field.FormSelect
               label="Modalidade"
+              disabled
               options={championshipModalities.map((modality) => ({
                 value: modality.chmd_id,
                 label: (
@@ -124,7 +157,7 @@ function RouteComponent() {
               <div className="flex flex-col gap-2">
                 {field.state.value?.map((_, i) => {
                   return (
-                    <div key={i} className="flex items-end gap-3">
+                    <div key={i} className="flex items-end justify-between gap-3">
                       <div className="flex w-full gap-5">
                         <form.AppField name={`races[${i}].name` as const}>
                           {(subField) => (
@@ -227,7 +260,7 @@ function RouteComponent() {
         <form.Subscribe
           selector={(state) => [state.canSubmit, state.isSubmitting]}
           children={([canSubmit, isSubmitting]) => (
-            <Button disabled={!canSubmit || isSubmitting}>Cadastrar</Button>
+            <Button disabled={!canSubmit || isSubmitting}>Editar</Button>
           )}
         />
       </div>

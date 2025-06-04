@@ -5,27 +5,29 @@ import { DefaultCatchBoundary } from "./components/DefaultCatchBoundary";
 import { NotFound } from "./components/NotFound";
 import { routeTree } from "./routeTree.gen";
 
-export function createRouter() {
-  const queryClient = new QueryClient({
-    defaultOptions: {
-      queries: {
-        refetchOnWindowFocus: false,
-        staleTime: 1000 * 60,
-      },
+export const queryClient = new QueryClient({
+  defaultOptions: {
+    queries: {
+      refetchOnWindowFocus: true,
+      staleTime: 1000 * 60,
+      // staleTime: 0,
+      // gcTime: 0,
     },
-  });
+  },
+});
 
+export function createRouter() {
   return routerWithQueryClient(
     createTanStackRouter({
       routeTree,
       context: { queryClient, admin: null },
       defaultPreload: "intent",
       defaultPreloadStaleTime: 0,
-      defaultErrorComponent: DefaultCatchBoundary,
-      defaultNotFoundComponent: () => <NotFound />,
       scrollRestoration: true,
       defaultStructuralSharing: true,
       defaultViewTransition: true,
+      defaultErrorComponent: DefaultCatchBoundary,
+      defaultNotFoundComponent: () => <NotFound />,
     }),
     queryClient,
   );

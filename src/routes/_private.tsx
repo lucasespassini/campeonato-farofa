@@ -8,7 +8,7 @@ export const Route = createFileRoute("/_private")({
     }
 
     if (context.admin && location.pathname == "/admin/login") {
-      throw redirect({ to: "/admin" });
+      throw redirect({ to: "/admin/dashboard" });
     }
   },
   component: RouteComponent,

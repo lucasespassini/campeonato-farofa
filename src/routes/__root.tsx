@@ -41,8 +41,12 @@ const getAdmin = createServerFn().handler(() => {
 });
 
 export const Route = createRootRouteWithContext<RootRouterContext>()({
-  async beforeLoad() {
-    return getAdmin();
+  async beforeLoad({ context }) {
+    return context.queryClient.ensureQueryData({
+      queryKey: ["get-admin"],
+      staleTime: 0,
+      queryFn: () => getAdmin(),
+    });
   },
   head: () => ({
     meta: [

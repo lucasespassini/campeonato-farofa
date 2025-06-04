@@ -58,9 +58,15 @@ function RouteComponent() {
               </div>
             </div>
 
-            <Button variant="outline" className="h-9 w-9 rounded-full p-0">
-              <EditIcon size={18} />
-            </Button>
+            <Link
+              to="/admin/championship/$id"
+              params={{ id: championship.chmp_id }}
+              preload={false}
+            >
+              <Button variant="outline" className="h-9 w-9 rounded-full p-0">
+                <EditIcon size={18} />
+              </Button>
+            </Link>
           </div>
         ))}
       </div>
