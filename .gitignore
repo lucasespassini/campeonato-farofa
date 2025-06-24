@@ -9,13 +9,16 @@ yarn.lock
 .output
 .vinxi
 .netlify
+.vinxi
+.tanstack
+.nitro
 
 /dist/
 /build/
 /api/
 /server/build
 /public/build
-.vinxi
+
 # Sentry Config File
 .env.sentry-build-plugin
 /test-results/

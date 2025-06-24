@@ -51,8 +51,6 @@ function RouteComponent() {
   const navigate = useNavigate();
   const router = useRouter();
 
-  console.log(championship);
-
   async function handleSubmit(data: EditChampionshipType) {
     try {
       await editChampionship({ data });
