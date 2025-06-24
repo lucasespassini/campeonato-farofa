@@ -8,230 +8,304 @@
 // You should NOT make any changes in this file as it will be overwritten.
 // Additionally, you should also exclude this file from your linter and/or formatter to prevent it from being checked or modified.
 
-// Import Routes
+import { Route as rootRouteImport } from "./routes/__root";
+import { Route as PublicRouteImport } from "./routes/_public";
+import { Route as PrivateRouteImport } from "./routes/_private";
+import { Route as PublicIndexRouteImport } from "./routes/_public/index";
+import { Route as PublicResultsRouteImport } from "./routes/_public/results";
+import { Route as PublicDriversRouteImport } from "./routes/_public/drivers";
+import { Route as PublicChampionshipsRouteImport } from "./routes/_public/championships";
+import { Route as PrivateAdminIndexRouteImport } from "./routes/_private/admin/index";
+import { Route as PrivateAdminLoginRouteImport } from "./routes/_private/admin/login";
+import { Route as PrivateAdminDashboardRouteImport } from "./routes/_private/admin/dashboard";
+import { Route as PrivateAdminDriverIndexRouteImport } from "./routes/_private/admin/driver/index";
+import { Route as PrivateAdminChampionshipIndexRouteImport } from "./routes/_private/admin/championship/index";
+import { Route as PrivateAdminDriverRegisterRouteImport } from "./routes/_private/admin/driver/register";
+import { Route as PrivateAdminChampionshipRegisterRouteImport } from "./routes/_private/admin/championship/register";
+import { Route as PrivateAdminChampionshipIdRouteImport } from "./routes/_private/admin/championship/$id";
 
-import { Route as rootRoute } from './routes/__root'
-import { Route as PublicImport } from './routes/_public'
-import { Route as PrivateImport } from './routes/_private'
-import { Route as PublicIndexImport } from './routes/_public/index'
-import { Route as PublicResultsImport } from './routes/_public/results'
-import { Route as PublicDriversImport } from './routes/_public/drivers'
-import { Route as PublicChampionshipsImport } from './routes/_public/championships'
-import { Route as PrivateAdminIndexImport } from './routes/_private/admin/index'
-import { Route as PrivateAdminLoginImport } from './routes/_private/admin/login'
-import { Route as PrivateAdminDashboardImport } from './routes/_private/admin/dashboard'
-import { Route as PrivateAdminDriverIndexImport } from './routes/_private/admin/driver/index'
-import { Route as PrivateAdminChampionshipIndexImport } from './routes/_private/admin/championship/index'
-import { Route as PrivateAdminDriverRegisterImport } from './routes/_private/admin/driver/register'
-import { Route as PrivateAdminChampionshipRegisterImport } from './routes/_private/admin/championship/register'
-import { Route as PrivateAdminChampionshipIdImport } from './routes/_private/admin/championship/$id'
-
-// Create/Update Routes
-
-const PublicRoute = PublicImport.update({
-  id: '/_public',
-  getParentRoute: () => rootRoute,
-} as any)
-
-const PrivateRoute = PrivateImport.update({
-  id: '/_private',
-  getParentRoute: () => rootRoute,
-} as any)
-
-const PublicIndexRoute = PublicIndexImport.update({
-  id: '/',
-  path: '/',
+const PublicRoute = PublicRouteImport.update({
+  id: "/_public",
+  getParentRoute: () => rootRouteImport,
+} as any);
+const PrivateRoute = PrivateRouteImport.update({
+  id: "/_private",
+  getParentRoute: () => rootRouteImport,
+} as any);
+const PublicIndexRoute = PublicIndexRouteImport.update({
+  id: "/",
+  path: "/",
   getParentRoute: () => PublicRoute,
-} as any)
-
-const PublicResultsRoute = PublicResultsImport.update({
-  id: '/results',
-  path: '/results',
+} as any);
+const PublicResultsRoute = PublicResultsRouteImport.update({
+  id: "/results",
+  path: "/results",
   getParentRoute: () => PublicRoute,
-} as any)
-
-const PublicDriversRoute = PublicDriversImport.update({
-  id: '/drivers',
-  path: '/drivers',
+} as any);
+const PublicDriversRoute = PublicDriversRouteImport.update({
+  id: "/drivers",
+  path: "/drivers",
   getParentRoute: () => PublicRoute,
-} as any)
-
-const PublicChampionshipsRoute = PublicChampionshipsImport.update({
-  id: '/championships',
-  path: '/championships',
+} as any);
+const PublicChampionshipsRoute = PublicChampionshipsRouteImport.update({
+  id: "/championships",
+  path: "/championships",
   getParentRoute: () => PublicRoute,
-} as any)
-
-const PrivateAdminIndexRoute = PrivateAdminIndexImport.update({
-  id: '/admin/',
-  path: '/admin/',
+} as any);
+const PrivateAdminIndexRoute = PrivateAdminIndexRouteImport.update({
+  id: "/admin/",
+  path: "/admin/",
   getParentRoute: () => PrivateRoute,
-} as any)
-
-const PrivateAdminLoginRoute = PrivateAdminLoginImport.update({
-  id: '/admin/login',
-  path: '/admin/login',
+} as any);
+const PrivateAdminLoginRoute = PrivateAdminLoginRouteImport.update({
+  id: "/admin/login",
+  path: "/admin/login",
   getParentRoute: () => PrivateRoute,
-} as any)
-
-const PrivateAdminDashboardRoute = PrivateAdminDashboardImport.update({
-  id: '/admin/dashboard',
-  path: '/admin/dashboard',
+} as any);
+const PrivateAdminDashboardRoute = PrivateAdminDashboardRouteImport.update({
+  id: "/admin/dashboard",
+  path: "/admin/dashboard",
   getParentRoute: () => PrivateRoute,
-} as any)
-
-const PrivateAdminDriverIndexRoute = PrivateAdminDriverIndexImport.update({
-  id: '/admin/driver/',
-  path: '/admin/driver/',
+} as any);
+const PrivateAdminDriverIndexRoute = PrivateAdminDriverIndexRouteImport.update({
+  id: "/admin/driver/",
+  path: "/admin/driver/",
   getParentRoute: () => PrivateRoute,
-} as any)
-
+} as any);
 const PrivateAdminChampionshipIndexRoute =
-  PrivateAdminChampionshipIndexImport.update({
-    id: '/admin/championship/',
-    path: '/admin/championship/',
+  PrivateAdminChampionshipIndexRouteImport.update({
+    id: "/admin/championship/",
+    path: "/admin/championship/",
     getParentRoute: () => PrivateRoute,
-  } as any)
-
-const PrivateAdminDriverRegisterRoute = PrivateAdminDriverRegisterImport.update(
-  {
-    id: '/admin/driver/register',
-    path: '/admin/driver/register',
+  } as any);
+const PrivateAdminDriverRegisterRoute =
+  PrivateAdminDriverRegisterRouteImport.update({
+    id: "/admin/driver/register",
+    path: "/admin/driver/register",
     getParentRoute: () => PrivateRoute,
-  } as any,
-)
-
+  } as any);
 const PrivateAdminChampionshipRegisterRoute =
-  PrivateAdminChampionshipRegisterImport.update({
-    id: '/admin/championship/register',
-    path: '/admin/championship/register',
+  PrivateAdminChampionshipRegisterRouteImport.update({
+    id: "/admin/championship/register",
+    path: "/admin/championship/register",
     getParentRoute: () => PrivateRoute,
-  } as any)
-
-const PrivateAdminChampionshipIdRoute = PrivateAdminChampionshipIdImport.update(
-  {
-    id: '/admin/championship/$id',
-    path: '/admin/championship/$id',
+  } as any);
+const PrivateAdminChampionshipIdRoute =
+  PrivateAdminChampionshipIdRouteImport.update({
+    id: "/admin/championship/$id",
+    path: "/admin/championship/$id",
     getParentRoute: () => PrivateRoute,
-  } as any,
-)
+  } as any);
 
-// Populate the FileRoutesByPath interface
+export interface FileRoutesByFullPath {
+  "/championships": typeof PublicChampionshipsRoute;
+  "/drivers": typeof PublicDriversRoute;
+  "/results": typeof PublicResultsRoute;
+  "/": typeof PublicIndexRoute;
+  "/admin/dashboard": typeof PrivateAdminDashboardRoute;
+  "/admin/login": typeof PrivateAdminLoginRoute;
+  "/admin": typeof PrivateAdminIndexRoute;
+  "/admin/championship/$id": typeof PrivateAdminChampionshipIdRoute;
+  "/admin/championship/register": typeof PrivateAdminChampionshipRegisterRoute;
+  "/admin/driver/register": typeof PrivateAdminDriverRegisterRoute;
+  "/admin/championship": typeof PrivateAdminChampionshipIndexRoute;
+  "/admin/driver": typeof PrivateAdminDriverIndexRoute;
+}
+export interface FileRoutesByTo {
+  "/championships": typeof PublicChampionshipsRoute;
+  "/drivers": typeof PublicDriversRoute;
+  "/results": typeof PublicResultsRoute;
+  "/": typeof PublicIndexRoute;
+  "/admin/dashboard": typeof PrivateAdminDashboardRoute;
+  "/admin/login": typeof PrivateAdminLoginRoute;
+  "/admin": typeof PrivateAdminIndexRoute;
+  "/admin/championship/$id": typeof PrivateAdminChampionshipIdRoute;
+  "/admin/championship/register": typeof PrivateAdminChampionshipRegisterRoute;
+  "/admin/driver/register": typeof PrivateAdminDriverRegisterRoute;
+  "/admin/championship": typeof PrivateAdminChampionshipIndexRoute;
+  "/admin/driver": typeof PrivateAdminDriverIndexRoute;
+}
+export interface FileRoutesById {
+  __root__: typeof rootRouteImport;
+  "/_private": typeof PrivateRouteWithChildren;
+  "/_public": typeof PublicRouteWithChildren;
+  "/_public/championships": typeof PublicChampionshipsRoute;
+  "/_public/drivers": typeof PublicDriversRoute;
+  "/_public/results": typeof PublicResultsRoute;
+  "/_public/": typeof PublicIndexRoute;
+  "/_private/admin/dashboard": typeof PrivateAdminDashboardRoute;
+  "/_private/admin/login": typeof PrivateAdminLoginRoute;
+  "/_private/admin/": typeof PrivateAdminIndexRoute;
+  "/_private/admin/championship/$id": typeof PrivateAdminChampionshipIdRoute;
+  "/_private/admin/championship/register": typeof PrivateAdminChampionshipRegisterRoute;
+  "/_private/admin/driver/register": typeof PrivateAdminDriverRegisterRoute;
+  "/_private/admin/championship/": typeof PrivateAdminChampionshipIndexRoute;
+  "/_private/admin/driver/": typeof PrivateAdminDriverIndexRoute;
+}
+export interface FileRouteTypes {
+  fileRoutesByFullPath: FileRoutesByFullPath;
+  fullPaths:
+    | "/championships"
+    | "/drivers"
+    | "/results"
+    | "/"
+    | "/admin/dashboard"
+    | "/admin/login"
+    | "/admin"
+    | "/admin/championship/$id"
+    | "/admin/championship/register"
+    | "/admin/driver/register"
+    | "/admin/championship"
+    | "/admin/driver";
+  fileRoutesByTo: FileRoutesByTo;
+  to:
+    | "/championships"
+    | "/drivers"
+    | "/results"
+    | "/"
+    | "/admin/dashboard"
+    | "/admin/login"
+    | "/admin"
+    | "/admin/championship/$id"
+    | "/admin/championship/register"
+    | "/admin/driver/register"
+    | "/admin/championship"
+    | "/admin/driver";
+  id:
+    | "__root__"
+    | "/_private"
+    | "/_public"
+    | "/_public/championships"
+    | "/_public/drivers"
+    | "/_public/results"
+    | "/_public/"
+    | "/_private/admin/dashboard"
+    | "/_private/admin/login"
+    | "/_private/admin/"
+    | "/_private/admin/championship/$id"
+    | "/_private/admin/championship/register"
+    | "/_private/admin/driver/register"
+    | "/_private/admin/championship/"
+    | "/_private/admin/driver/";
+  fileRoutesById: FileRoutesById;
+}
+export interface RootRouteChildren {
+  PrivateRoute: typeof PrivateRouteWithChildren;
+  PublicRoute: typeof PublicRouteWithChildren;
+}
 
-declare module '@tanstack/react-router' {
+declare module "@tanstack/react-router" {
   interface FileRoutesByPath {
-    '/_private': {
-      id: '/_private'
-      path: ''
-      fullPath: ''
-      preLoaderRoute: typeof PrivateImport
-      parentRoute: typeof rootRoute
-    }
-    '/_public': {
-      id: '/_public'
-      path: ''
-      fullPath: ''
-      preLoaderRoute: typeof PublicImport
-      parentRoute: typeof rootRoute
-    }
-    '/_public/championships': {
-      id: '/_public/championships'
-      path: '/championships'
-      fullPath: '/championships'
-      preLoaderRoute: typeof PublicChampionshipsImport
-      parentRoute: typeof PublicImport
-    }
-    '/_public/drivers': {
-      id: '/_public/drivers'
-      path: '/drivers'
-      fullPath: '/drivers'
-      preLoaderRoute: typeof PublicDriversImport
-      parentRoute: typeof PublicImport
-    }
-    '/_public/results': {
-      id: '/_public/results'
-      path: '/results'
-      fullPath: '/results'
-      preLoaderRoute: typeof PublicResultsImport
-      parentRoute: typeof PublicImport
-    }
-    '/_public/': {
-      id: '/_public/'
-      path: '/'
-      fullPath: '/'
-      preLoaderRoute: typeof PublicIndexImport
-      parentRoute: typeof PublicImport
-    }
-    '/_private/admin/dashboard': {
-      id: '/_private/admin/dashboard'
-      path: '/admin/dashboard'
-      fullPath: '/admin/dashboard'
-      preLoaderRoute: typeof PrivateAdminDashboardImport
-      parentRoute: typeof PrivateImport
-    }
-    '/_private/admin/login': {
-      id: '/_private/admin/login'
-      path: '/admin/login'
-      fullPath: '/admin/login'
-      preLoaderRoute: typeof PrivateAdminLoginImport
-      parentRoute: typeof PrivateImport
-    }
-    '/_private/admin/': {
-      id: '/_private/admin/'
-      path: '/admin'
-      fullPath: '/admin'
-      preLoaderRoute: typeof PrivateAdminIndexImport
-      parentRoute: typeof PrivateImport
-    }
-    '/_private/admin/championship/$id': {
-      id: '/_private/admin/championship/$id'
-      path: '/admin/championship/$id'
-      fullPath: '/admin/championship/$id'
-      preLoaderRoute: typeof PrivateAdminChampionshipIdImport
-      parentRoute: typeof PrivateImport
-    }
-    '/_private/admin/championship/register': {
-      id: '/_private/admin/championship/register'
-      path: '/admin/championship/register'
-      fullPath: '/admin/championship/register'
-      preLoaderRoute: typeof PrivateAdminChampionshipRegisterImport
-      parentRoute: typeof PrivateImport
-    }
-    '/_private/admin/driver/register': {
-      id: '/_private/admin/driver/register'
-      path: '/admin/driver/register'
-      fullPath: '/admin/driver/register'
-      preLoaderRoute: typeof PrivateAdminDriverRegisterImport
-      parentRoute: typeof PrivateImport
-    }
-    '/_private/admin/championship/': {
-      id: '/_private/admin/championship/'
-      path: '/admin/championship'
-      fullPath: '/admin/championship'
-      preLoaderRoute: typeof PrivateAdminChampionshipIndexImport
-      parentRoute: typeof PrivateImport
-    }
-    '/_private/admin/driver/': {
-      id: '/_private/admin/driver/'
-      path: '/admin/driver'
-      fullPath: '/admin/driver'
-      preLoaderRoute: typeof PrivateAdminDriverIndexImport
-      parentRoute: typeof PrivateImport
-    }
+    "/_public": {
+      id: "/_public";
+      path: "";
+      fullPath: "";
+      preLoaderRoute: typeof PublicRouteImport;
+      parentRoute: typeof rootRouteImport;
+    };
+    "/_private": {
+      id: "/_private";
+      path: "";
+      fullPath: "";
+      preLoaderRoute: typeof PrivateRouteImport;
+      parentRoute: typeof rootRouteImport;
+    };
+    "/_public/": {
+      id: "/_public/";
+      path: "/";
+      fullPath: "/";
+      preLoaderRoute: typeof PublicIndexRouteImport;
+      parentRoute: typeof PublicRoute;
+    };
+    "/_public/results": {
+      id: "/_public/results";
+      path: "/results";
+      fullPath: "/results";
+      preLoaderRoute: typeof PublicResultsRouteImport;
+      parentRoute: typeof PublicRoute;
+    };
+    "/_public/drivers": {
+      id: "/_public/drivers";
+      path: "/drivers";
+      fullPath: "/drivers";
+      preLoaderRoute: typeof PublicDriversRouteImport;
+      parentRoute: typeof PublicRoute;
+    };
+    "/_public/championships": {
+      id: "/_public/championships";
+      path: "/championships";
+      fullPath: "/championships";
+      preLoaderRoute: typeof PublicChampionshipsRouteImport;
+      parentRoute: typeof PublicRoute;
+    };
+    "/_private/admin/": {
+      id: "/_private/admin/";
+      path: "/admin";
+      fullPath: "/admin";
+      preLoaderRoute: typeof PrivateAdminIndexRouteImport;
+      parentRoute: typeof PrivateRoute;
+    };
+    "/_private/admin/login": {
+      id: "/_private/admin/login";
+      path: "/admin/login";
+      fullPath: "/admin/login";
+      preLoaderRoute: typeof PrivateAdminLoginRouteImport;
+      parentRoute: typeof PrivateRoute;
+    };
+    "/_private/admin/dashboard": {
+      id: "/_private/admin/dashboard";
+      path: "/admin/dashboard";
+      fullPath: "/admin/dashboard";
+      preLoaderRoute: typeof PrivateAdminDashboardRouteImport;
+      parentRoute: typeof PrivateRoute;
+    };
+    "/_private/admin/driver/": {
+      id: "/_private/admin/driver/";
+      path: "/admin/driver";
+      fullPath: "/admin/driver";
+      preLoaderRoute: typeof PrivateAdminDriverIndexRouteImport;
+      parentRoute: typeof PrivateRoute;
+    };
+    "/_private/admin/championship/": {
+      id: "/_private/admin/championship/";
+      path: "/admin/championship";
+      fullPath: "/admin/championship";
+      preLoaderRoute: typeof PrivateAdminChampionshipIndexRouteImport;
+      parentRoute: typeof PrivateRoute;
+    };
+    "/_private/admin/driver/register": {
+      id: "/_private/admin/driver/register";
+      path: "/admin/driver/register";
+      fullPath: "/admin/driver/register";
+      preLoaderRoute: typeof PrivateAdminDriverRegisterRouteImport;
+      parentRoute: typeof PrivateRoute;
+    };
+    "/_private/admin/championship/register": {
+      id: "/_private/admin/championship/register";
+      path: "/admin/championship/register";
+      fullPath: "/admin/championship/register";
+      preLoaderRoute: typeof PrivateAdminChampionshipRegisterRouteImport;
+      parentRoute: typeof PrivateRoute;
+    };
+    "/_private/admin/championship/$id": {
+      id: "/_private/admin/championship/$id";
+      path: "/admin/championship/$id";
+      fullPath: "/admin/championship/$id";
+      preLoaderRoute: typeof PrivateAdminChampionshipIdRouteImport;
+      parentRoute: typeof PrivateRoute;
+    };
   }
 }
 
-// Create and export the route tree
-
 interface PrivateRouteChildren {
-  PrivateAdminDashboardRoute: typeof PrivateAdminDashboardRoute
-  PrivateAdminLoginRoute: typeof PrivateAdminLoginRoute
-  PrivateAdminIndexRoute: typeof PrivateAdminIndexRoute
-  PrivateAdminChampionshipIdRoute: typeof PrivateAdminChampionshipIdRoute
-  PrivateAdminChampionshipRegisterRoute: typeof PrivateAdminChampionshipRegisterRoute
-  PrivateAdminDriverRegisterRoute: typeof PrivateAdminDriverRegisterRoute
-  PrivateAdminChampionshipIndexRoute: typeof PrivateAdminChampionshipIndexRoute
-  PrivateAdminDriverIndexRoute: typeof PrivateAdminDriverIndexRoute
+  PrivateAdminDashboardRoute: typeof PrivateAdminDashboardRoute;
+  PrivateAdminLoginRoute: typeof PrivateAdminLoginRoute;
+  PrivateAdminIndexRoute: typeof PrivateAdminIndexRoute;
+  PrivateAdminChampionshipIdRoute: typeof PrivateAdminChampionshipIdRoute;
+  PrivateAdminChampionshipRegisterRoute: typeof PrivateAdminChampionshipRegisterRoute;
+  PrivateAdminDriverRegisterRoute: typeof PrivateAdminDriverRegisterRoute;
+  PrivateAdminChampionshipIndexRoute: typeof PrivateAdminChampionshipIndexRoute;
+  PrivateAdminDriverIndexRoute: typeof PrivateAdminDriverIndexRoute;
 }
 
 const PrivateRouteChildren: PrivateRouteChildren = {
@@ -243,16 +317,16 @@ const PrivateRouteChildren: PrivateRouteChildren = {
   PrivateAdminDriverRegisterRoute: PrivateAdminDriverRegisterRoute,
   PrivateAdminChampionshipIndexRoute: PrivateAdminChampionshipIndexRoute,
   PrivateAdminDriverIndexRoute: PrivateAdminDriverIndexRoute,
-}
+};
 
 const PrivateRouteWithChildren =
-  PrivateRoute._addFileChildren(PrivateRouteChildren)
+  PrivateRoute._addFileChildren(PrivateRouteChildren);
 
 interface PublicRouteChildren {
-  PublicChampionshipsRoute: typeof PublicChampionshipsRoute
-  PublicDriversRoute: typeof PublicDriversRoute
-  PublicResultsRoute: typeof PublicResultsRoute
-  PublicIndexRoute: typeof PublicIndexRoute
+  PublicChampionshipsRoute: typeof PublicChampionshipsRoute;
+  PublicDriversRoute: typeof PublicDriversRoute;
+  PublicResultsRoute: typeof PublicResultsRoute;
+  PublicIndexRoute: typeof PublicIndexRoute;
 }
 
 const PublicRouteChildren: PublicRouteChildren = {
@@ -260,205 +334,15 @@ const PublicRouteChildren: PublicRouteChildren = {
   PublicDriversRoute: PublicDriversRoute,
   PublicResultsRoute: PublicResultsRoute,
   PublicIndexRoute: PublicIndexRoute,
-}
+};
 
 const PublicRouteWithChildren =
-  PublicRoute._addFileChildren(PublicRouteChildren)
-
-export interface FileRoutesByFullPath {
-  '': typeof PublicRouteWithChildren
-  '/championships': typeof PublicChampionshipsRoute
-  '/drivers': typeof PublicDriversRoute
-  '/results': typeof PublicResultsRoute
-  '/': typeof PublicIndexRoute
-  '/admin/dashboard': typeof PrivateAdminDashboardRoute
-  '/admin/login': typeof PrivateAdminLoginRoute
-  '/admin': typeof PrivateAdminIndexRoute
-  '/admin/championship/$id': typeof PrivateAdminChampionshipIdRoute
-  '/admin/championship/register': typeof PrivateAdminChampionshipRegisterRoute
-  '/admin/driver/register': typeof PrivateAdminDriverRegisterRoute
-  '/admin/championship': typeof PrivateAdminChampionshipIndexRoute
-  '/admin/driver': typeof PrivateAdminDriverIndexRoute
-}
-
-export interface FileRoutesByTo {
-  '': typeof PrivateRouteWithChildren
-  '/championships': typeof PublicChampionshipsRoute
-  '/drivers': typeof PublicDriversRoute
-  '/results': typeof PublicResultsRoute
-  '/': typeof PublicIndexRoute
-  '/admin/dashboard': typeof PrivateAdminDashboardRoute
-  '/admin/login': typeof PrivateAdminLoginRoute
-  '/admin': typeof PrivateAdminIndexRoute
-  '/admin/championship/$id': typeof PrivateAdminChampionshipIdRoute
-  '/admin/championship/register': typeof PrivateAdminChampionshipRegisterRoute
-  '/admin/driver/register': typeof PrivateAdminDriverRegisterRoute
-  '/admin/championship': typeof PrivateAdminChampionshipIndexRoute
-  '/admin/driver': typeof PrivateAdminDriverIndexRoute
-}
-
-export interface FileRoutesById {
-  __root__: typeof rootRoute
-  '/_private': typeof PrivateRouteWithChildren
-  '/_public': typeof PublicRouteWithChildren
-  '/_public/championships': typeof PublicChampionshipsRoute
-  '/_public/drivers': typeof PublicDriversRoute
-  '/_public/results': typeof PublicResultsRoute
-  '/_public/': typeof PublicIndexRoute
-  '/_private/admin/dashboard': typeof PrivateAdminDashboardRoute
-  '/_private/admin/login': typeof PrivateAdminLoginRoute
-  '/_private/admin/': typeof PrivateAdminIndexRoute
-  '/_private/admin/championship/$id': typeof PrivateAdminChampionshipIdRoute
-  '/_private/admin/championship/register': typeof PrivateAdminChampionshipRegisterRoute
-  '/_private/admin/driver/register': typeof PrivateAdminDriverRegisterRoute
-  '/_private/admin/championship/': typeof PrivateAdminChampionshipIndexRoute
-  '/_private/admin/driver/': typeof PrivateAdminDriverIndexRoute
-}
-
-export interface FileRouteTypes {
-  fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths:
-    | ''
-    | '/championships'
-    | '/drivers'
-    | '/results'
-    | '/'
-    | '/admin/dashboard'
-    | '/admin/login'
-    | '/admin'
-    | '/admin/championship/$id'
-    | '/admin/championship/register'
-    | '/admin/driver/register'
-    | '/admin/championship'
-    | '/admin/driver'
-  fileRoutesByTo: FileRoutesByTo
-  to:
-    | ''
-    | '/championships'
-    | '/drivers'
-    | '/results'
-    | '/'
-    | '/admin/dashboard'
-    | '/admin/login'
-    | '/admin'
-    | '/admin/championship/$id'
-    | '/admin/championship/register'
-    | '/admin/driver/register'
-    | '/admin/championship'
-    | '/admin/driver'
-  id:
-    | '__root__'
-    | '/_private'
-    | '/_public'
-    | '/_public/championships'
-    | '/_public/drivers'
-    | '/_public/results'
-    | '/_public/'
-    | '/_private/admin/dashboard'
-    | '/_private/admin/login'
-    | '/_private/admin/'
-    | '/_private/admin/championship/$id'
-    | '/_private/admin/championship/register'
-    | '/_private/admin/driver/register'
-    | '/_private/admin/championship/'
-    | '/_private/admin/driver/'
-  fileRoutesById: FileRoutesById
-}
-
-export interface RootRouteChildren {
-  PrivateRoute: typeof PrivateRouteWithChildren
-  PublicRoute: typeof PublicRouteWithChildren
-}
+  PublicRoute._addFileChildren(PublicRouteChildren);
 
 const rootRouteChildren: RootRouteChildren = {
   PrivateRoute: PrivateRouteWithChildren,
   PublicRoute: PublicRouteWithChildren,
-}
-
-export const routeTree = rootRoute
+};
+export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
-  ._addFileTypes<FileRouteTypes>()
-
-/* ROUTE_MANIFEST_START
-{
-  "routes": {
-    "__root__": {
-      "filePath": "__root.tsx",
-      "children": [
-        "/_private",
-        "/_public"
-      ]
-    },
-    "/_private": {
-      "filePath": "_private.tsx",
-      "children": [
-        "/_private/admin/dashboard",
-        "/_private/admin/login",
-        "/_private/admin/",
-        "/_private/admin/championship/$id",
-        "/_private/admin/championship/register",
-        "/_private/admin/driver/register",
-        "/_private/admin/championship/",
-        "/_private/admin/driver/"
-      ]
-    },
-    "/_public": {
-      "filePath": "_public.tsx",
-      "children": [
-        "/_public/championships",
-        "/_public/drivers",
-        "/_public/results",
-        "/_public/"
-      ]
-    },
-    "/_public/championships": {
-      "filePath": "_public/championships.tsx",
-      "parent": "/_public"
-    },
-    "/_public/drivers": {
-      "filePath": "_public/drivers.tsx",
-      "parent": "/_public"
-    },
-    "/_public/results": {
-      "filePath": "_public/results.tsx",
-      "parent": "/_public"
-    },
-    "/_public/": {
-      "filePath": "_public/index.tsx",
-      "parent": "/_public"
-    },
-    "/_private/admin/dashboard": {
-      "filePath": "_private/admin/dashboard.tsx",
-      "parent": "/_private"
-    },
-    "/_private/admin/login": {
-      "filePath": "_private/admin/login.tsx",
-      "parent": "/_private"
-    },
-    "/_private/admin/": {
-      "filePath": "_private/admin/index.tsx",
-      "parent": "/_private"
-    },
-    "/_private/admin/championship/$id": {
-      "filePath": "_private/admin/championship/$id.tsx",
-      "parent": "/_private"
-    },
-    "/_private/admin/championship/register": {
-      "filePath": "_private/admin/championship/register.tsx",
-      "parent": "/_private"
-    },
-    "/_private/admin/driver/register": {
-      "filePath": "_private/admin/driver/register.tsx",
-      "parent": "/_private"
-    },
-    "/_private/admin/championship/": {
-      "filePath": "_private/admin/championship/index.tsx",
-      "parent": "/_private"
-    },
-    "/_private/admin/driver/": {
-      "filePath": "_private/admin/driver/index.tsx",
-      "parent": "/_private"
-    }
-  }
-}
-ROUTE_MANIFEST_END */
+  ._addFileTypes<FileRouteTypes>();
