@@ -1,0 +1,26 @@
+@import url("https://fonts.googleapis.com/css2?family=Racing+Sans+One&family=Roboto:wght@400;700&display=swap");
+
+body {
+  font-family: "Roboto", sans-serif;
+}
+
+.team-header {
+  font-family: "Racing Sans One", cursive;
+}
+
+.driver-card {
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.driver-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+}
+
+.year-tab {
+  transition: all 0.3s ease;
+}
+
+.year-tab:hover {
+  transform: scale(1.02);
+}
